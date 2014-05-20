@@ -11,59 +11,61 @@ import java.util.Random;
 
 
 public class SetCard {
+	//TODO comparison function with other cards
 	
 	//Defining properties of actual Set cards
-	public enum SetShape {SQUIGGLE, DIAMOND, CAPSULE};
+	public enum SetColor {RED, GREEN, PURPLE};
 	public enum SetNumber {ONE, TWO, THREE};
 	public enum SetShading {OPEN, SHADED, FILLED};
-	public enum SetColor {RED, GREEN, PURPLE};
-	
+	public enum SetShape {SQUIGGLE, DIAMOND, CAPSULE};
+
 	//Instance variables
-	private SetShape shape;
+	private SetColor color;
 	private SetNumber number;
 	private SetShading shading;
-	private SetColor color;
+	private SetShape shape;
 	
-	private static final RandomEnum<SetShape> RandomShape = new RandomEnum<SetShape>(SetShape.class);
+	//Random properties
+	private static final RandomEnum<SetColor> RandomColor = new RandomEnum<SetColor>(SetColor.class);
 	private static final RandomEnum<SetNumber> RandomNumber = new RandomEnum<SetNumber>(SetNumber.class);
 	private static final RandomEnum<SetShading> RandomShading = new RandomEnum<SetShading>(SetShading.class);
-	private static final RandomEnum<SetColor> RandomColor = new RandomEnum<SetColor>(SetColor.class);
+	private static final RandomEnum<SetShape> RandomShape = new RandomEnum<SetShape>(SetShape.class);
 
 	/**
 	 * Creates a card with randomly-generated properties.
 	 * 
 	 */
 	public SetCard() {
-		shape = RandomShape.getRandom();
+		color = RandomColor.getRandom();
 		number = RandomNumber.getRandom();
 		shading = RandomShading.getRandom();
-		color = RandomColor.getRandom();
+		shape = RandomShape.getRandom();
 	}
-	
+
 	/**
-	 * Creates a card with the specified parameters.
+	 * Creates a SetCard with the provided parameters.
 	 * 
-	 * @param shape
-	 * @param number
-	 * @param shade
 	 * @param color
+	 * @param number
+	 * @param shading
+	 * @param shape
 	 */
-	public SetCard(SetShape shape, SetNumber number, SetShading shading, SetColor color){
-		this.setShape(shape);
+	public SetCard(SetColor color, SetNumber number, SetShading shading, SetShape shape) {
+		this.setColor(color);
 		this.setNumber(number);
 		this.setShading(shading);
-		this.setColor(color);
+		this.setShape(shape);
 	}
 	
 	/**
 	 * Picks a random value from an enum.
-	 * Used to randomize for SetCard().
+	 * Used to provide random properties for SetCard().
 	 * 
 	 * @author Lawrence
 	 *
-	 * @param <E> an enumberated type
+	 * @param <E> an enumerated type
 	 */
-	private static class RandomEnum<E extends Enum> {
+	private static class RandomEnum<E extends Enum<?>> {
 		private static final Random RNG = new Random();
 		private final E[] values;
 
@@ -74,6 +76,10 @@ public class SetCard {
         public E getRandom() {
             return values[RNG.nextInt(values.length)];
         }
+	}
+	
+	public String toString() {
+		return number.toString() + " " + color.toString() + " " + shape.toString() + " " + shading.toString();
 	}
 
 	/**
