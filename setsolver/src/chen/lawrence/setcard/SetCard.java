@@ -1,7 +1,6 @@
-/**
- * 
- */
 package chen.lawrence.setcard;
+
+import java.util.Random;
 
 /**
  * Representation of a card used in the card game Set.
@@ -24,13 +23,21 @@ public class SetCard {
 	private SetNumber number;
 	private SetShading shading;
 	private SetColor color;
+	
+	private static final RandomEnum<SetShape> RandomShape = new RandomEnum<SetShape>(SetShape.class);
+	private static final RandomEnum<SetNumber> RandomNumber = new RandomEnum<SetNumber>(SetNumber.class);
+	private static final RandomEnum<SetShading> RandomShading = new RandomEnum<SetShading>(SetShading.class);
+	private static final RandomEnum<SetColor> RandomColor = new RandomEnum<SetColor>(SetColor.class);
 
 	/**
 	 * Creates a card with randomly-generated properties.
 	 * 
 	 */
 	public SetCard() {
-		
+		shape = RandomShape.getRandom();
+		number = RandomNumber.getRandom();
+		shading = RandomShading.getRandom();
+		color = RandomColor.getRandom();
 	}
 	
 	/**
@@ -46,6 +53,27 @@ public class SetCard {
 		this.setNumber(number);
 		this.setShading(shading);
 		this.setColor(color);
+	}
+	
+	/**
+	 * Picks a random value from an enum.
+	 * Used to randomize for SetCard().
+	 * 
+	 * @author Lawrence
+	 *
+	 * @param <E> an enumberated type
+	 */
+	private static class RandomEnum<E extends Enum> {
+		private static final Random RNG = new Random();
+		private final E[] values;
+
+        public RandomEnum(Class<E> token) {
+            values = token.getEnumConstants();
+        }
+
+        public E getRandom() {
+            return values[RNG.nextInt(values.length)];
+        }
 	}
 
 	/**
