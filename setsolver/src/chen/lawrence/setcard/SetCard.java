@@ -1,5 +1,7 @@
 package chen.lawrence.setcard;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -55,6 +57,23 @@ public class SetCard {
 		this.setNumber(number);
 		this.setShading(shading);
 		this.setShape(shape);
+	}
+	
+	/**
+	 * Compares this SetCard to another SetCard object.
+	 * Returns a List with the difference in ordinal between
+	 * each of the SetCard enumerated properties.
+	 * 
+	 * @param other the card to compare
+	 * @return List<Integer> difference in enum ordinal
+	 */
+	public List<Integer> compareTo(SetCard other) {
+		List<Integer> res = new LinkedList<Integer>();
+		res.add(this.color.ordinal() - other.color.ordinal());
+		res.add(this.number.ordinal() - other.color.ordinal());
+		res.add(this.shading.ordinal() - other.shading.ordinal());
+		res.add(this.shape.ordinal() - other.shape.ordinal());
+		return res;
 	}
 	
 	/**

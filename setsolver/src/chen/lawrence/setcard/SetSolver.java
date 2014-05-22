@@ -12,11 +12,9 @@ public class SetSolver {
 	
 	//TODO actual logic
 	public SetSolver(List<SetCard> cards) {
-		for (SetCard card : cards) {
+		for (SetCard card1 : cards) {
 			for(SetCard card2 : cards) {
-				if (card.equals(card2) ) {
-					System.out.println(card + " " + card2);
-				}
+				System.out.println(card1.compareTo(card2));
 			}
 		}
 	}

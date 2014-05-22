@@ -28,7 +28,10 @@ public class SetTester {
 		}
 		
 		//create a new SetSolver with the chosen cards
+		@SuppressWarnings("unused")
 		SetSolver solver = new SetSolver(hand);
+		
+		//TODO output solved result
 		
 	}
 	
