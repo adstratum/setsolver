@@ -1,5 +1,6 @@
 package chen.lawrence.setcard;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -47,7 +48,7 @@ public class SetCard {
 	
 	/**
 	 * Compares this SetCard to another SetCard object.
-	 * Returns an array with the difference in each property.
+	 * Returns an array with the difference in each element.
 	 * 
 	 * @param other - a SetCard card to compare
 	 * @return int[] results of the comparison :
@@ -66,13 +67,54 @@ public class SetCard {
 	}
 	
 	/**
-	 * Compares a property in the SetCards at the specified index.
+	 * Returns false if any of the elements provided by compareTo() are
+	 * not zero; otherwise, returns true.
+	 * 
+	 * @param other - a SetCard to compare to
+	 * @return result of comparison
+	 */
+	public boolean same(SetCard other) {
+		for (int i : compareTo(other)) {
+			if (i != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Returns false if any of the elements provided by compareTo() are
+	 * <i>not</i> different; otherwise, returns true.
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public boolean different(SetCard other) {
+		for (int i : compareTo(other)) {
+			if (i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@SuppressWarnings(value = { "", "unused" })
+	public boolean isSet(List<SetCard> others) {
+		for (int i = 0; i < 4; i++) {
+			for (SetCard other : others) {
+				//TODO comparison
+			}
+		}
+	}
+	
+	/**
+	 * Compares an element in the given SetCard at the specified index.
 	 * 
 	 * @param other
 	 * @param index
-	 * @return int difference in the specified index in sCardProperties
+	 * @return int difference at the specified index in sCardProperties
 	 */
-	public int compareProperty(SetCard other, int index) {
+	public int compareElement(SetCard other, int index) {
 		return other.sCardProperties[index] - this.sCardProperties[index];
 	}
 

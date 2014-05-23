@@ -10,11 +10,24 @@ import java.util.*;
  */
 public class SetSolver {
 	
+	ArrayList<SetCard> deck;
+	
 	//TODO actual logic
 	public SetSolver(List<SetCard> cards) {
-		for (SetCard card1 : cards) {
-			for(SetCard card2 : cards) {
-				System.out.println(card1.compareTo(card2));
+		this.deck = (ArrayList<SetCard>)cards;
+	}
+	
+	/**
+	 * 
+	 */
+	public void findMatches(){
+		for (SetCard card1 : deck) {
+			for(SetCard card2 : deck) {
+				if (card1.same(card2)) {
+					
+				} else if (card1.different(card2)) {
+					
+				}
 			}
 		}
 	}
