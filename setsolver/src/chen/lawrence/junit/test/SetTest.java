@@ -5,9 +5,7 @@ package chen.lawrence.junit.test;
 
 import static org.junit.Assert.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -37,7 +35,7 @@ public class SetTest {
 		deck = generateDeck();
 
 		// fill hand with 12 cards
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 25; i++) {
 			int r = RNG.nextInt(deck.size());
 			hand.add(deck.get(r));
 			deck.remove(r);
@@ -54,6 +52,7 @@ public class SetTest {
 	@Test(timeout = 1000)
 	public void test() {
 		SetSolver solver = new SetSolver(deck);
+		solver.findMatches();
 	}
 	
 	/**
@@ -62,23 +61,22 @@ public class SetTest {
 	 * @return List<SetCard>, a deck of valid SetCards
 	 */
 	private static List<SetCard> generateDeck() {
-		List<SetCard> deck = new LinkedList<SetCard>();
+		List<SetCard> deck = new ArrayList<SetCard>();
 		
 		/*
-		 * iterate through all possible values for each parameter;
-		 * add a new SetCard for each possibility
-		 * to the temporary deck
+		 * iterate through all possible values for each parameter; add a new
+		 * SetCard for each possibility to the temporary deck
 		 */
-		for (SetCard.SetColor col : SetCard.SetColor.values()) {
-			for (SetCard.SetNumber num : SetCard.SetNumber.values()) {
-				for (SetCard.SetShading shd : SetCard.SetShading.values()) {
-					for (SetCard.SetShape shp : SetCard.SetShape.values()) {
-						deck.add(new SetCard(col, num, shd, shp));
+		for (int col = 0; col < 3; col++) {
+			for (int num = 0; num < 3; num++) {
+				for (int shad = 0; shad < 3; shad++) {
+					for (int shap = 0; shap < 3; shap++) {
+						deck.add(new SetCard(col, num, shad, shap));
 					}
 				}
 			}
 		}
-		
+
 		return deck;
 	}
 
