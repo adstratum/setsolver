@@ -1,5 +1,6 @@
 package chen.lawrence.setcard;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +28,10 @@ public class SetCard {
 	private SetShading shading;
 	private SetShape shape;
 	
-	//Random properties
+	//Holds instance variables
+	private List<Enum<?>> propertyList = new LinkedList<Enum<?>>();
+	
+	//Random property generators
 	private static final RandomEnum<SetColor> RandomColor = new RandomEnum<SetColor>(SetColor.class);
 	private static final RandomEnum<SetNumber> RandomNumber = new RandomEnum<SetNumber>(SetNumber.class);
 	private static final RandomEnum<SetShading> RandomShading = new RandomEnum<SetShading>(SetShading.class);
@@ -42,6 +46,7 @@ public class SetCard {
 		number = RandomNumber.getRandom();
 		shading = RandomShading.getRandom();
 		shape = RandomShape.getRandom();
+		propertyList.addAll(Arrays.asList(color, number, shading, shape));
 	}
 
 	/**
@@ -57,6 +62,7 @@ public class SetCard {
 		this.setNumber(number);
 		this.setShading(shading);
 		this.setShape(shape);
+		propertyList.addAll(Arrays.asList(color, number, shading, shape));
 	}
 	
 	/**
@@ -77,7 +83,7 @@ public class SetCard {
 	}
 	
 	/**
-	 * Picks a random value from an enum.
+	 * Picks a random value from an enumerated type.
 	 * Used to provide random properties for SetCard().
 	 * 
 	 * @author Lawrence
@@ -99,6 +105,20 @@ public class SetCard {
 	
 	public String toString() {
 		return number.toString() + " " + color.toString() + " " + shape.toString() + " " + shading.toString();
+	}
+
+	/**
+	 * @return the propertyList
+	 */
+	public List<Enum<?>> getPropertyList() {
+		return propertyList;
+	}
+
+	/**
+	 * @param propertyList the propertyList to set
+	 */
+	public void setPropertyList(List<Enum<?>> propertyList) {
+		this.propertyList = propertyList;
 	}
 
 	/**
