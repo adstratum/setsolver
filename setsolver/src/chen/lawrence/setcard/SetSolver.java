@@ -10,8 +10,11 @@ import java.util.*;
  */
 public class SetSolver {
 	
+	ArrayList<SetCard> deck;
+	
 	//TODO actual logic
 	public SetSolver(List<SetCard> cards) {
+
 		for (SetCard card1 : cards) {
 			for(SetCard card2 : cards) {
 				isSame(Arrays.asList(card1, card2), 0);
