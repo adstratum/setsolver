@@ -10,16 +10,38 @@ import java.util.*;
  */
 public class SetSolver {
 	
-	ArrayList<SetCard> deck;
+	List<SetCard> cards;
+	HashSet<List<SetCard>> matches = new HashSet<List<SetCard>>();
 	
-	//TODO actual logic
+	/**
+	 * Creates a new SetSolver that will work with
+	 * the specified List of SetCards.
+	 * 
+	 * @param cards
+	 */
 	public SetSolver(List<SetCard> cards) {
-
-		for (SetCard card1 : cards) {
-			for(SetCard card2 : cards) {
-				isSame(Arrays.asList(card1, card2), 0);
+		this.cards = cards;
+	}
+	
+	//TODO javadoc
+	//TODO actual logic
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean findMatches() {
+		for (int i = 0; i < 3; i++) {
+			for (SetCard card1 : cards) {
+				for(SetCard card2 : cards) {
+					List<SetCard> comp = Arrays.asList(card1, card2);
+					if (isSame(comp, i) || isDifferent(comp, i)) {
+						matches.add(comp);
+					}
+				}
 			}
 		}
+		System.out.println(matches);
+		return true;
 	}
 	
 	/**
@@ -48,10 +70,21 @@ public class SetSolver {
 	}
 	
 	//TODO javadoc
-	//TODO different comparison method
+	/**
+	 * 
+	 * @param cards
+	 * @param propIndex
+	 * @return
+	 */
 	private boolean isDifferent(List<SetCard> cards, int propIndex) {
 		HashSet<Enum<?>> cardSet = new HashSet<Enum<?>>();
 		for(SetCard card : cards) {
+			List<Enum<?>> propList = card.getPropertyList();
+			cardSet.add(propList.get(propIndex));
+		}
+		
+		if(cardSet.size() == cards.size()) {
+			return true;
 		}
 		return false;
 	}

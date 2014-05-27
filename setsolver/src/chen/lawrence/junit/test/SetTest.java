@@ -49,9 +49,13 @@ public class SetTest {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Test(timeout = 1000)
+	@Test//(timeout = 1000)
 	public void test() {
 		SetSolver solver = new SetSolver(deck);
+		solver.findMatches();
+	}
+	
+	public static void AfterClass() throws Exception {
 	}
 	
 	/**
