@@ -30,17 +30,27 @@ public class SetSolver {
 	 * @return
 	 */
 	public boolean findMatches() {
-		for (int i = 0; i < 3; i++) {
-			for (SetCard card1 : cards) {
-				for(SetCard card2 : cards) {
-					List<SetCard> comp = Arrays.asList(card1, card2);
-					if (isSame(comp, i) || isDifferent(comp, i)) {
-						matches.add(comp);
-					}
+		for (SetCard card1 : cards) {
+			for(SetCard card2 : cards) {
+				for (SetCard card3 : cards) {
+					
 				}
 			}
 		}
-		System.out.println(matches);
+	}
+	
+	/**
+	 * Checks if the specified list of cards forms a valid Set.
+	 * 
+	 * @param cards
+	 * @return
+	 */
+	public boolean isSet(LinkedList<SetCard> cards) {
+		for (int i = 0; i < 3; i++) {
+			if (!isSame(cards, i) || !isDifferent(cards,i)) {
+				return false;
+			}
+		}
 		return true;
 	}
 	
