@@ -3,8 +3,6 @@
  */
 package chen.lawrence.junit.test;
 
-import static org.junit.Assert.*;
-
 import java.util.*;
 
 import org.junit.AfterClass;

@@ -3,10 +3,16 @@ package chen.lawrence.setcv;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacv.*;
 
+/**
+ * Handles the webcam feed for SetSolver.
+ * 
+ * @author Lawrence
+ *
+ */
 public class SetCapture implements Runnable{
 	
 	public final 
-	CanvasFrame canvasFrame = new CanvasFrame("qwop");
+	CanvasFrame canvasFrame = new CanvasFrame("SetSolver");
 	int cameraID = 0;
 	
 	public SetCapture() {
