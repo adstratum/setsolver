@@ -3,8 +3,6 @@
  */
 package chen.lawrence.junit.test;
 
-import static org.junit.Assert.*;
-
 import java.util.*;
 
 import org.junit.AfterClass;
@@ -49,34 +47,34 @@ public class SetTest {
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Test(timeout = 1000)
+	@Test//(timeout = 1000)
 	public void test() {
 		SetSolver solver = new SetSolver(deck);
 		solver.findMatches();
 	}
 	
+	public static void AfterClass() throws Exception {
+	}
+	
 	/**
 	 * Returns a List containing the set of all valid SetCards.
 	 * 
-	 * @return List<SetCard>, a deck of valid SetCards
+	 * @return
 	 */
 	private static List<SetCard> generateDeck() {
-		List<SetCard> deck = new ArrayList<SetCard>();
+		List<SetCard> deck = new LinkedList<SetCard>();
 		
-		/*
-		 * iterate through all possible values for each parameter; add a new
-		 * SetCard for each possibility to the temporary deck
-		 */
-		for (int col = 0; col < 3; col++) {
-			for (int num = 0; num < 3; num++) {
-				for (int shad = 0; shad < 3; shad++) {
-					for (int shap = 0; shap < 3; shap++) {
-						deck.add(new SetCard(col, num, shad, shap));
+		//iterate through all possible values and add a new SetCard for each possibility
+		for (SetCard.SetColor col : SetCard.SetColor.values()) {
+			for (SetCard.SetNumber num : SetCard.SetNumber.values()) {
+				for (SetCard.SetShading shd : SetCard.SetShading.values()) {
+					for (SetCard.SetShape shp : SetCard.SetShape.values()) {
+						deck.add(new SetCard(col, num, shd, shp));
 					}
 				}
 			}
 		}
-
+		
 		return deck;
 	}
 

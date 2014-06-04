@@ -10,26 +10,83 @@ import java.util.*;
  */
 public class SetSolver {
 	
-	ArrayList<SetCard> deck;
-	
-	//TODO actual logic
-	public SetSolver(List<SetCard> cards) {
-		this.deck = (ArrayList<SetCard>)cards;
-	}
+	List<SetCard> cards;
+	HashSet<List<SetCard>> matches = new HashSet<List<SetCard>>();
 	
 	/**
+	 * Creates a new SetSolver that will work with
+	 * the specified List of SetCards.
 	 * 
+	 * @param cards
 	 */
-	public void findMatches(){
-		for (SetCard card1 : deck) {
-			for(SetCard card2 : deck) {
-				if (card1.same(card2)) {
-					
-				} else if (card1.different(card2)) {
-					
+	public SetSolver(List<SetCard> cards) {
+		this.cards = cards;
+	}
+	
+	//TODO javadoc
+	//TODO actual logic
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean findMatches() {
+		for (int i = 0; i < 3; i++) {
+			for (SetCard card1 : cards) {
+				for(SetCard card2 : cards) {
+					List<SetCard> comp = Arrays.asList(card1, card2);
+					if (isSame(comp, i) || isDifferent(comp, i)) {
+						matches.add(comp);
+					}
 				}
 			}
 		}
+		System.out.println(matches);
+		return true;
+	}
+	
+	/**
+	 * Checks if all SetCards in a list of SetCards have the
+	 * same value for a single property in each SetCard's
+	 * PropertyList.
+	 * 
+	 * Returns false if any of the cards differ for that property;
+	 * otherwise, returns true.
+	 * 
+	 * @param cards - a list of SetCards to compare
+	 * @param propIndex - index of the property to compare
+	 * @return true if all cards have the same value for that property;
+	 * false if the cards differ for that property
+	 */
+	private boolean isSame(List<SetCard> cards, int propIndex) {
+		for (SetCard card : cards) {
+			List<Enum<?>> propList0 = cards.get(0).getPropertyList(); //compare all subsequent cards to the first card
+			List<Enum<?>> propList1 = card.getPropertyList();
+			
+			if (propList0.get(propIndex) != propList1.get(propIndex)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	//TODO javadoc
+	/**
+	 * 
+	 * @param cards
+	 * @param propIndex
+	 * @return
+	 */
+	private boolean isDifferent(List<SetCard> cards, int propIndex) {
+		HashSet<Enum<?>> cardSet = new HashSet<Enum<?>>();
+		for(SetCard card : cards) {
+			List<Enum<?>> propList = card.getPropertyList();
+			cardSet.add(propList.get(propIndex));
+		}
+		
+		if(cardSet.size() == cards.size()) {
+			return true;
+		}
+		return false;
 	}
 
 }
