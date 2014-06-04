@@ -11,7 +11,7 @@ import org.bytedeco.javacv.*;
  */
 public class SetCapture implements Runnable{
 	
-	public final 
+	SetSegmentation segInstance = new SetSegmentation();
 	CanvasFrame canvasFrame = new CanvasFrame("SetSolver");
 	int cameraID = 0;
 	
@@ -33,7 +33,8 @@ public class SetCapture implements Runnable{
 			while(true) {
 				img = grabber.grab();
 				if (img != null) {
-					canvasFrame.showImage(img);
+					segInstance.setImage(img);
+					canvasFrame.showImage(segInstance.call());
 				}
 			}
 		} catch (Exception e) {
