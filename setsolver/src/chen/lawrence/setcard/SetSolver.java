@@ -11,7 +11,7 @@ import java.util.*;
 public class SetSolver {
 	
 	List<SetCard> cards;
-	HashSet<List<SetCard>> matches = new HashSet<List<SetCard>>();
+	HashSet<Set<SetCard>> matches = new HashSet<Set<SetCard>>();
 	
 	/**
 	 * Creates a new SetSolver that will work with
@@ -29,25 +29,36 @@ public class SetSolver {
 	 * 
 	 * @return
 	 */
-	public boolean findMatches() {
-		for (SetCard card1 : cards) {
+	public void findMatches() {
+		for (SetCard card1 : cards) { 
 			for(SetCard card2 : cards) {
 				for (SetCard card3 : cards) {
-					
+					LinkedHashSet<SetCard> tempSet = new LinkedHashSet<SetCard>();
+					tempSet.add(card1);
+					tempSet.add(card2);
+					tempSet.add(card3);
+					List<SetCard> tempList = new LinkedList<SetCard>(tempSet);
+					if (isSet(tempList) && tempList.size() == 3) {
+						matches.add(tempSet);
+					}
 				}
 			}
 		}
+		for (Set<SetCard> set : matches) {
+			System.out.println(set);
+		}
 	}
 	
+
 	/**
 	 * Checks if the specified list of cards forms a valid Set.
 	 * 
 	 * @param cards
 	 * @return
 	 */
-	public boolean isSet(LinkedList<SetCard> cards) {
+	private boolean isSet(List<SetCard> cards) {
 		for (int i = 0; i < 3; i++) {
-			if (!isSame(cards, i) || !isDifferent(cards,i)) {
+			if (!(isSame(cards, i) || isDifferent(cards,i))) {
 				return false;
 			}
 		}
