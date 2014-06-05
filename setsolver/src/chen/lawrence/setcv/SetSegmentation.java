@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 import org.bytedeco.javacpp.opencv_imgproc;
 import org.bytedeco.javacpp.opencv_core.*;
 
+//TODO documentation
 public class SetSegmentation implements Callable<IplImage> {
 	
 	private IplImage srcImg = new IplImage();
