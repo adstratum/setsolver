@@ -3,7 +3,7 @@ package chen.lawrence.setcard;
 import java.util.*;
 
 /**
- * Searches a List of SetCards for valid solutions.
+ * Searches a given List of SetCards for valid solutions.
  * 
  * @author Lawrence
  *
@@ -11,10 +11,10 @@ import java.util.*;
 public class SetSolver {
 	
 	List<SetCard> cards;
-	HashSet<Set<SetCard>> matches = new HashSet<Set<SetCard>>();
+	List<List<SetCard>> matches = new LinkedList<List<SetCard>>();
 	
 	/**
-	 * Creates a new SetSolver that will work with
+	 * Creates a new SetSolver that will work on
 	 * the specified List of SetCards.
 	 * 
 	 * @param cards
@@ -23,41 +23,65 @@ public class SetSolver {
 		this.cards = cards;
 	}
 	
-	//TODO javadoc
-	//TODO actual logic
 	/**
+	 * Brute-force solving for possible Sets.
 	 * 
-	 * @return
+	 * @return a List of Lists of SetCards that are considered
+	 * Sets
 	 */
-	public void findMatches() {
-		for (SetCard card1 : cards) { 
-			for(SetCard card2 : cards) {
-				for (SetCard card3 : cards) {
-					LinkedHashSet<SetCard> tempSet = new LinkedHashSet<SetCard>();
-					tempSet.add(card1);
-					tempSet.add(card2);
-					tempSet.add(card3);
-					List<SetCard> tempList = new LinkedList<SetCard>(tempSet);
-					if (isSet(tempList) && tempList.size() == 3) {
-						matches.add(tempSet);
+	public List<List<SetCard>> findMatches() {
+		
+		LinkedList<SetCard> linkedCards = new LinkedList<SetCard>(cards);
+		
+		/*
+		 * iterate through linkedCards, getting all possible permutations
+		 * of SetCards...
+		 */
+		for (int i = 0; i < linkedCards.size(); i++) {
+			SetCard card1 = linkedCards.get(i);
+			for (int j = 1; j < linkedCards.size(); j++) {
+				SetCard card2 = linkedCards.get(j);
+				for (int k = 2; k < linkedCards.size(); k++) {
+					SetCard card3 = linkedCards.get(k);
+					
+					//...and adding them to a temporary HashSet.
+					LinkedHashSet<SetCard> tempCardSet = new LinkedHashSet<SetCard>();
+					tempCardSet.add(card1);
+					tempCardSet.add(card2);
+					tempCardSet.add(card3);
+					
+					//check that there aren't any duplicates
+					if (tempCardSet.size() == 3) {
+						
+						//convert back to List if check passes
+						List<SetCard> tempList = new LinkedList<SetCard>(tempCardSet);
+						
+						/*
+						 * if the cards are a set, add them to the list
+						 * of results and remove them from the master
+						 * list of cards, so that they're not used again
+						 */
+						if (isSet(tempList)) {
+							matches.add(tempList);
+							linkedCards.removeAll(tempList);
+						}
 					}
 				}
 			}
 		}
-		for (Set<SetCard> set : matches) {
-			System.out.println(set);
-		}
+		return matches;
 	}
+	
 	
 
 	/**
-	 * Checks if the specified list of cards forms a valid Set.
+	 * Checks if the specified List of cards forms a valid Set.
 	 * 
 	 * @param cards
 	 * @return
 	 */
 	private boolean isSet(List<SetCard> cards) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (!(isSame(cards, i) || isDifferent(cards,i))) {
 				return false;
 			}
@@ -83,7 +107,7 @@ public class SetSolver {
 			List<Enum<?>> propList0 = cards.get(0).getPropertyList(); //compare all subsequent cards to the first card
 			List<Enum<?>> propList1 = card.getPropertyList();
 			
-			if (propList0.get(propIndex) != propList1.get(propIndex)) {
+			if (!propList0.get(propIndex).equals(propList1.get(propIndex))) {
 				return false;
 			}
 		}
@@ -92,10 +116,17 @@ public class SetSolver {
 	
 	//TODO javadoc
 	/**
+	 * Checks if all SetCards in a list of SetCards have 
+	 * unique values for a single property in each SetCard's
+	 * PropertyList.
 	 * 
-	 * @param cards
-	 * @param propIndex
-	 * @return
+	 * Returns false if the number of cards with unique values is less
+	 * than the total number of cards input; otherwise, returns true.
+	 * 
+	 * @param cards - a list of SetCards to compare
+	 * @param propIndex - index of the property to compare
+	 * @return true if all cards have unique values for that property;
+	 * false if any of the cards are the same for that property
 	 */
 	private boolean isDifferent(List<SetCard> cards, int propIndex) {
 		HashSet<Enum<?>> cardSet = new HashSet<Enum<?>>();
@@ -108,6 +139,20 @@ public class SetSolver {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @return the cards
+	 */
+	public List<SetCard> getCards() {
+		return cards;
+	}
+
+	/**
+	 * @param cards the cards to set
+	 */
+	public void setCards(List<SetCard> cards) {
+		this.cards = cards;
 	}
 
 }
