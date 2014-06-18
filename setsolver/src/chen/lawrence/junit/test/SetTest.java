@@ -31,9 +31,13 @@ public class SetTest {
 	public static void setUpBeforeClass() throws Exception {
 		// generate a deck of cards
 		deck = generateDeck();
+		
+		fillHand(12);
+	}
 
-		// fill hand with 12 cards
-		for (int i = 0; i < 25; i++) {
+	private static void fillHand(int cardNum) {
+		// fill hand with cardNum cards
+		for (int i = 0; i < cardNum; i++) {
 			int r = RNG.nextInt(deck.size());
 			hand.add(deck.get(r));
 			deck.remove(r);
@@ -49,7 +53,7 @@ public class SetTest {
 
 	@Test//(timeout = 1000)
 	public void test() {
-		SetSolver solver = new SetSolver(deck);
+		SetSolver solver = new SetSolver(hand);
 		solver.findMatches();
 	}
 	
