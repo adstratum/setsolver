@@ -1,5 +1,7 @@
 package chen.lawrence.setcv;
 
+import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.helper.opencv_highgui;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacv.*;
 
@@ -32,20 +34,27 @@ public class SetCapture implements Runnable{
 	
 	@Override
 	public void run() {
-		grabber = new OpenCVFrameGrabber(cameraID);
 		try {
+			
+			//If running on Windows, use VideoInputFrameGrabber to get images;
+			//otherwise, default to OpenCVFrameGrabber
+			if (System.getProperty("os.name").indexOf("Win") >= 0) {
+				grabber = new VideoInputFrameGrabber(cameraID);
+			} else {
+				grabber = new OpenCVFrameGrabber(cameraID);
+			}
+			
 			grabber.start();
 			IplImage img;
-			while(canvasFrame.isActive() && canvasFrame != null) {
+			while(canvasFrame.isEnabled()) {
 				img = grabber.grab();
 				canvasFrame.setCanvasSize(grabber.getImageWidth(), grabber.getImageHeight()); 
-				if (img != null) {
+				if (img != null && canvasFrame.isActive()) {
 					segInstance.setImage(img);
 					canvasFrame.showImage(segInstance.call());
 				}
 
 			}
-			System.out.println("qwop");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,72 +63,10 @@ public class SetCapture implements Runnable{
 	
 	private void setupClose() {
 		canvasFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		canvasFrame.addWindowListener(new GrabberListener());
 	}
 	
     @Override
     public String toString(){
         return new Integer(this.cameraID).toString();
-    }
-    
-    /**
-     * Action listener that handles window closing, thread
-     * safety be damned.
-     * 
-     * @author Lawrence
-     *
-     */
-    private class GrabberListener implements WindowListener {
-    	
-    	@Override
-    	public void windowClosing(WindowEvent arg0) {
-    		if (grabber != null) {
-    			try {
-    				// Grabber must *always* be released first, otherwise
-    				// SetRun will never terminate
-					grabber.release();
-					canvasFrame.dispose();
-				} catch (Exception exc) {
-					// TODO Auto-generated catch block
-					exc.printStackTrace();
-				}
-    		}
-    	}
-
-		@Override
-		public void windowActivated(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowClosed(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowDeactivated(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowDeiconified(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowIconified(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowOpened(WindowEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
     }
 }
