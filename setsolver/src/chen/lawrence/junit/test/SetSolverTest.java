@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import chen.lawrence.setcard.SetCard;
-import chen.lawrence.setcard.SetSolver;
+import chen.lawrence.setcard.SetCardSolver;
 
 /**
  * Tests SetSolver.
@@ -62,7 +62,7 @@ public class SetSolverTest {
 
 	@Test //(timeout = 1000)
 	public void test() {
-		SetSolver solver = new SetSolver(hand);
+		SetCardSolver solver = new SetCardSolver(hand);
 		results = solver.findMatches();
 	}
 	
