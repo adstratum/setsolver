@@ -3,7 +3,9 @@
  */
 package chen.lawrence.junit.test;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -18,11 +20,13 @@ import chen.lawrence.setcard.SetSolver;
  * @author lawrence
  *
  */
-public class SetTest {
+public class SetSolverTest {
 	
 	private static List<SetCard> deck = new LinkedList<SetCard>(); //contains all valid SetCards
 	private static List<SetCard> hand = new LinkedList<SetCard>(); //contains chosen cards
 	private static Random RNG = new Random();
+	private static List<List<SetCard>> results;
+	
 
 	/**
 	 * @throws java.lang.Exception
@@ -32,33 +36,36 @@ public class SetTest {
 		// generate a deck of cards
 		deck = generateDeck();
 		
-		fillHand(12);
+		hand = getRandomCards(12);
 	}
 
-	private static void fillHand(int cardNum) {
+	private static List<SetCard> getRandomCards(int cardNum) {
 		// fill hand with cardNum cards
+		List<SetCard> tempCards = new LinkedList<SetCard>();
 		for (int i = 0; i < cardNum; i++) {
 			int r = RNG.nextInt(deck.size());
-			hand.add(deck.get(r));
+			tempCards.add(deck.get(r));
 			deck.remove(r);
 		}
+		return tempCards;
 	}
 
 	/**
+	 * Display results in console
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		System.out.println(results);
 	}
 
-	@Test//(timeout = 1000)
+	@Test //(timeout = 1000)
 	public void test() {
 		SetSolver solver = new SetSolver(hand);
-		solver.findMatches();
+		results = solver.findMatches();
 	}
 	
-	public static void AfterClass() throws Exception {
-	}
 	
 	/**
 	 * Returns a List containing the set of all valid SetCards.
