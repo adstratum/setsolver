@@ -27,22 +27,26 @@ public class SetSolver {
 	 * Brute-force solving for possible Sets.
 	 * 
 	 * @return a List of Lists of SetCards that are considered
-	 * Sets
+	 * Sets; null if the number of cards is less than 3 (minimum for
+	 * a valid Set)
 	 */
 	public List<List<SetCard>> findMatches() {
 		
-		LinkedList<SetCard> linkedCards = new LinkedList<SetCard>(cards);
+		//don't even bother if there aren't enough cards
+		if (cards.size() < 3) {
+			return null;
+		}
 		
 		/*
-		 * iterate through linkedCards, getting all possible permutations
+		 * iterate through all of the cards, getting all possible permutations
 		 * of SetCards...
 		 */
-		for (int i = 0; i < linkedCards.size(); i++) {
-			SetCard card1 = linkedCards.get(i);
-			for (int j = 1; j < linkedCards.size(); j++) {
-				SetCard card2 = linkedCards.get(j);
-				for (int k = 2; k < linkedCards.size(); k++) {
-					SetCard card3 = linkedCards.get(k);
+		for (int i = 0; i < cards.size(); i++) {
+			SetCard card1 = cards.get(i);
+			for (int j = 1; j < cards.size(); j++) {
+				SetCard card2 = cards.get(j);
+				for (int k = 2; k < cards.size(); k++) {
+					SetCard card3 = cards.get(k);
 					
 					//...and adding them to a temporary HashSet.
 					LinkedHashSet<SetCard> tempCardSet = new LinkedHashSet<SetCard>();
@@ -57,13 +61,13 @@ public class SetSolver {
 						List<SetCard> tempList = new LinkedList<SetCard>(tempCardSet);
 						
 						/*
-						 * if the cards are a set, add them to the list
-						 * of results and remove them from the master
-						 * list of cards, so that they're not used again
+						 * if the cards are a set, add them to results 
+						 * and remove them from the master list of cards, 
+						 * so that they're not used again
 						 */
 						if (isSet(tempList)) {
 							matches.add(tempList);
-							linkedCards.removeAll(tempList);
+							cards.removeAll(tempList);
 						}
 					}
 				}

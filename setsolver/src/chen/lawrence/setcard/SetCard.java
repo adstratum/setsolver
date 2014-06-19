@@ -14,7 +14,6 @@ import java.util.Random;
 
 
 public class SetCard {
-	//TODO comparison function with other cards
 	
 	//Defining properties of actual Set cards
 	public enum SetColor {RED, GREEN, PURPLE};
