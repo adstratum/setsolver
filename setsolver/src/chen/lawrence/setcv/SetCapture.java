@@ -1,7 +1,5 @@
 package chen.lawrence.setcv;
 
-import org.bytedeco.javacpp.opencv_core;
-import org.bytedeco.javacpp.helper.opencv_highgui;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacv.*;
 
@@ -34,23 +32,26 @@ public class SetCapture implements Runnable{
 	
 	@Override
 	public void run() {
+		
+		//If running on Windows, use VideoInputFrameGrabber to get images;
+		//otherwise, default to OpenCVFrameGrabber
+		if (System.getProperty("os.name").indexOf("Win") >= 0) {
+			grabber = new VideoInputFrameGrabber(cameraID);
+		} else {
+			grabber = new OpenCVFrameGrabber(cameraID);
+		}
+		
 		try {
-			
-			//If running on Windows, use VideoInputFrameGrabber to get images;
-			//otherwise, default to OpenCVFrameGrabber
-			if (System.getProperty("os.name").indexOf("Win") >= 0) {
-				grabber = new VideoInputFrameGrabber(cameraID);
-			} else {
-				grabber = new OpenCVFrameGrabber(cameraID);
-			}
-			
 			grabber.start();
-			IplImage img;
+			
 			while(canvasFrame.isEnabled()) {
-				img = grabber.grab();
+				IplImage img = grabber.grab();
+				String fpsString = new Double(grabber.getFrameRate()).toString();
+				JLabel fpsLabel = new JLabel(fpsString);
 				canvasFrame.setCanvasSize(grabber.getImageWidth(), grabber.getImageHeight()); 
 				if (img != null && canvasFrame.isActive()) {
 					segInstance.setImage(img);
+					canvasFrame.add(fpsLabel);
 					canvasFrame.showImage(segInstance.call());
 				}
 
