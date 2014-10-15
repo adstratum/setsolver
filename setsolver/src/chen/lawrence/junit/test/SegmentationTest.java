@@ -1,15 +1,9 @@
 package chen.lawrence.junit.test;
 
-import static org.junit.Assert.*;
-
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_imgproc;
-import org.bytedeco.javacpp.opencv_imgproc.*;
-import org.bytedeco.javacpp.helper.opencv_highgui;
 import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.JavaCV;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
