@@ -43,18 +43,14 @@ public class SetCapture implements Runnable{
 		
 		try {
 			grabber.start();
-			
 			while(canvasFrame.isEnabled()) {
 				IplImage img = grabber.grab();
 				String fpsString = new Double(grabber.getFrameRate()).toString();
-				JLabel fpsLabel = new JLabel(fpsString);
-				canvasFrame.setCanvasSize(grabber.getImageWidth(), grabber.getImageHeight()); 
+				canvasFrame.setCanvasSize(grabber.getImageWidth(), grabber.getImageHeight());
 				if (img != null && canvasFrame.isActive()) {
 					segInstance.setImage(img);
-					canvasFrame.add(fpsLabel);
 					canvasFrame.showImage(segInstance.call());
 				}
-
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
